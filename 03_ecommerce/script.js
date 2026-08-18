@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {id: 3, name: "Product 3", price: 20.99}
     ];
 
-    const cart = [];
+    let cart = [];
 
     //grab all with ids
     const productsList = document.getElementById('product-list');
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 const cartProd = document.createElement('div');
                 cartProd.innerHTML = `
-                ${item.name} - $${item.price.toFixed(2)}
+                ${item.name} - $${item.price.toFixed(2)} <button data-id=${item.id}>remove</button>
                 `;
                 
                 cartItems.append(cartProd);
@@ -76,6 +76,24 @@ document.addEventListener('DOMContentLoaded', () => {
         cart.length = 0;
         alert('Checked out successfully!');
         renderCart();
+    })
+
+
+    // Add the remove button in cart
+    cartItems.addEventListener('click', (e) => {
+        console.log(e.target.tagName);
+        if (e.target.tagName === "BUTTON"){
+            const productId = Number(e.target.getAttribute("data-id"));
+            
+            const index = cart.findIndex(item => item.id === productId);
+
+            if (index !== -1) {
+                cart.splice(index, 1);
+            }
+
+            renderCart();
+        }
+        
     })
 
 });
